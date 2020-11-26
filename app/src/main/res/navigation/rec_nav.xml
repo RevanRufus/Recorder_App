@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rec_nav"
+    app:startDestination="@id/record_Screen">
+
+    <fragment
+        android:id="@+id/record_Screen"
+        android:name="com.example.intern_assignment.Record_Screen"
+        android:label="fragment_record__screen"
+        tools:layout="@layout/fragment_record__screen" >
+        <action
+            android:id="@+id/action_record_Screen_to_record_Screen_List"
+            app:destination="@id/record_Screen_List" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/record_Screen_List"
+        android:name="com.example.intern_assignment.Record_Screen_List"
+        android:label="fragment_record__screen__list"
+        tools:layout="@layout/fragment_record__screen__list" />
+
+</navigation>

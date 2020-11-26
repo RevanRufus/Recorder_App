@@ -96,11 +96,11 @@ private Runnable run_seekbar;
 
     @Override
     public void OnClickListener(File file, int position) {
+        toplay = file;
         if (isplaying) {
             audiostop();
             
         } else {
-            toplay = file;
             play(toplay);
 
         }

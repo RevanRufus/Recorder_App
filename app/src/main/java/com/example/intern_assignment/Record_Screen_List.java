@@ -120,11 +120,13 @@ public class Record_Screen_List extends Fragment implements List_Adpater.onItemC
 
     private void resume() {
         mediaPlayer.start();
+        play_btn.setBackgroundResource(R.drawable.pause);
         isplaying=true;
     }
 
     private void pause() {
         mediaPlayer.pause();
+        play_btn.setBackgroundResource(R.drawable.play);
         isplaying=false;
     }
 

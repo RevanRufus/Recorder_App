@@ -40,8 +40,8 @@ public class Record_Screen_List extends Fragment implements List_Adpater.onItemC
     private boolean isplaying = false;
 
     private File toplay;
-private Handler seekhandler;
-private Runnable run_seekbar;
+    private Handler seekhandler;
+    private Runnable run_seekbar;
     Button play_btn;
     TextView file_nm;
     SeekBar seekBar;
@@ -66,7 +66,8 @@ private Runnable run_seekbar;
         bottomSheetBehavior = BottomSheetBehavior.from(mediasheet);
         list_audio = view.findViewById(R.id.record_list);
         play_btn = view.findViewById(R.id.play_btn);
-        seekBar =view.findViewById(R.id.seek_bar);
+        seekBar = view.findViewById(R.id.seek_bar);
+
 
         file_nm = view.findViewById(R.id.file);
 
@@ -92,6 +93,17 @@ private Runnable run_seekbar;
 
             }
         });
+        play_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isplaying) {
+                    pause();
+                } else {
+                    resume();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -99,11 +111,19 @@ private Runnable run_seekbar;
         toplay = file;
         if (isplaying) {
             audiostop();
-            
+
         } else {
             play(toplay);
 
         }
+    }
+
+    private void resume() {
+        mediaPlayer.start();
+    }
+
+    private void pause() {
+        mediaPlayer.pause();
     }
 
     private void audiostop() {
@@ -135,10 +155,11 @@ private Runnable run_seekbar;
             @Override
             public void run() {
                 seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                seekhandler.postDelayed(this,500);
+                seekhandler.postDelayed(this, 500);
             }
         };
-seekhandler.postDelayed(run_seekbar,0);
+        seekhandler.postDelayed(run_seekbar, 0);
     }
+
 }
 

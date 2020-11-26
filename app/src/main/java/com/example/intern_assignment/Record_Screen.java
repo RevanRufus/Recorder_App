@@ -37,11 +37,12 @@ public class Record_Screen extends Fragment implements View.OnClickListener {
     MediaRecorder mediaRecorder;
 
     public String recfile;
+    private long timerpause;
 
     Chronometer timer;
+    boolean ispause;
 
     public Record_Screen() {
-
     }
 
 
@@ -99,14 +100,28 @@ public class Record_Screen extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.pause_btn:
-                pauserecord();
+                if (ispause){
+                    pause_btn.setText("Pause");
+                    timer.setBase(SystemClock.elapsedRealtime()+timerpause);
+                    timer.start();
+                    ispause=false;
+                }else {
+                    pauserecord();
+                    ispause=true;
+                }
+
                 break;
         }
     }
 
     private void pauserecord() {
+        timerpause = 0;
+        timerpause = timer.getBase() - SystemClock.elapsedRealtime();
+        timer.stop();
+        pause_btn.setText("Resume");
 
     }
+
 
     private void startrecord() {
         timer.setBase(SystemClock.elapsedRealtime());

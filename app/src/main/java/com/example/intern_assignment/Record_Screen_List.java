@@ -10,11 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -38,10 +40,11 @@ public class Record_Screen_List extends Fragment implements List_Adpater.onItemC
     private boolean isplaying = false;
 
     private File toplay;
-
+private Handler seekhandler;
+private Runnable run_seekbar;
     Button play_btn;
     TextView file_nm;
-
+    SeekBar seekBar;
 
     public Record_Screen_List() {
         // Required empty public constructor
@@ -63,6 +66,7 @@ public class Record_Screen_List extends Fragment implements List_Adpater.onItemC
         bottomSheetBehavior = BottomSheetBehavior.from(mediasheet);
         list_audio = view.findViewById(R.id.record_list);
         play_btn = view.findViewById(R.id.play_btn);
+        seekBar =view.findViewById(R.id.seek_bar);
 
         file_nm = view.findViewById(R.id.file);
 
@@ -105,15 +109,14 @@ public class Record_Screen_List extends Fragment implements List_Adpater.onItemC
     private void audiostop() {
         play_btn.setBackgroundResource(R.drawable.play);
         isplaying = false;
+        mediaPlayer.stop();
 
     }
 
     private void play(File toplay) {
 
         mediaPlayer = new MediaPlayer();
-
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-
         try {
             mediaPlayer.setDataSource(toplay.getAbsolutePath());
             mediaPlayer.prepare();
@@ -121,12 +124,21 @@ public class Record_Screen_List extends Fragment implements List_Adpater.onItemC
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         play_btn.setBackgroundResource(R.drawable.pause);
         file_nm.setText(toplay.getName());
-
         isplaying = true;
 
+        seekBar.setMax(mediaPlayer.getDuration());
+
+        seekhandler = new Handler();
+        run_seekbar = new Runnable() {
+            @Override
+            public void run() {
+                seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                seekhandler.postDelayed(this,500);
+            }
+        };
+seekhandler.postDelayed(run_seekbar,0);
     }
 }
 
